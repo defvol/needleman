@@ -1,0 +1,27 @@
+{
+  "name": "needleman",
+  "version": "0.1.0",
+  "description": "Implementation of the Needleman–Wunsch algorithm, used in bioinformatics to align protein or nucleotide sequences.",
+  "bin": {
+    "needleman": "lib/cli.js"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "standard lib/*.js test/*.js",
+    "pretest": "npm run lint",
+    "test": "tape test/*.test.js"
+  },
+  "keywords": [
+    "generator-npm-pasta"
+  ],
+  "author": "rodowi",
+  "license": "ISC",
+  "repository": "rodowi/needleman",
+  "devDependencies": {
+    "standard": "^10.0.2",
+    "tape": "^4.7.0"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
