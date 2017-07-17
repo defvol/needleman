@@ -24,3 +24,10 @@ test('identityMatrix', function (t) {
   t.equal(data.identityMatrix(4, 2, -4)[0][1], -4, 'custom penalization')
   t.end()
 })
+
+test('vocabulary', function (t) {
+  let v = 'GCATGCU'
+  let w = 'GATTACA'
+  t.deepEqual(data.vocabulary(v + w), ['A', 'C', 'G', 'T', 'U'])
+  t.end()
+})
