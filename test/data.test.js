@@ -29,7 +29,8 @@ test('identityMatrix', function (t) {
 })
 
 test('loads BLOSUM62', function (t) {
-  data.scoringMatrix(v, w, 'BLOSUM62', (err, matrix) => {
+  let options = { v, w, name: 'BLOSUM62' }
+  data.scoringMatrix(options, (err, matrix) => {
     t.ifError(err)
     BLOSUM62 = matrix
     t.end()
@@ -37,7 +38,8 @@ test('loads BLOSUM62', function (t) {
 })
 
 test('loads PAM250', function (t) {
-  data.scoringMatrix(v, w, 'PAM250', (err, matrix) => {
+  let options = { v, w, name: 'PAM250' }
+  data.scoringMatrix(options, (err, matrix) => {
     t.ifError(err)
     PAM250 = matrix
     t.end()
@@ -45,11 +47,16 @@ test('loads PAM250', function (t) {
 })
 
 test('scoringMatrix', function (t) {
-  let matrix = data.scoringMatrix(v, w)
+  let matrix = data.scoringMatrix({ v, w })
   t.equal(matrix['A']['A'], 1, 'defaults to similarity scoring')
   t.equal(matrix['A']['U'], 0)
   t.equal(matrix['C']['G'], 0)
   t.equal(matrix['G']['G'], 1)
+
+  let scores = { match: +10, mismatch: -10 }
+  matrix = data.scoringMatrix({ v, w, scores })
+  t.equal(matrix['C']['G'], -10, 'can pass custom penalizations')
+  t.equal(matrix['G']['G'], +10)
 
   t.equal(BLOSUM62['A']['A'], +4)
   t.equal(BLOSUM62['A']['U'], undefined)
