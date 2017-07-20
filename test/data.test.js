@@ -3,8 +3,6 @@ var data = require('../lib/data')
 
 let v = 'GCATGCU'
 let w = 'GATTACA'
-let BLOSUM62
-let PAM250
 
 test('createTable', function (t) {
   let table = data.createTable(v, w)
@@ -28,24 +26,6 @@ test('identityMatrix', function (t) {
   t.end()
 })
 
-test('loads BLOSUM62', function (t) {
-  let options = { v, w, name: 'BLOSUM62' }
-  data.scoringMatrix(options, (err, matrix) => {
-    t.ifError(err)
-    BLOSUM62 = matrix
-    t.end()
-  })
-})
-
-test('loads PAM250', function (t) {
-  let options = { v, w, name: 'PAM250' }
-  data.scoringMatrix(options, (err, matrix) => {
-    t.ifError(err)
-    PAM250 = matrix
-    t.end()
-  })
-})
-
 test('scoringMatrix', function (t) {
   let matrix = data.scoringMatrix({ v, w })
   t.equal(matrix['A']['A'], 1, 'defaults to similarity scoring')
@@ -58,11 +38,13 @@ test('scoringMatrix', function (t) {
   t.equal(matrix['C']['G'], -10, 'can pass custom penalizations')
   t.equal(matrix['G']['G'], +10)
 
+  let BLOSUM62 = data.scoringMatrix({ v, w, name: 'BLOSUM62' })
   t.equal(BLOSUM62['A']['A'], +4)
   t.equal(BLOSUM62['A']['U'], undefined)
   t.equal(BLOSUM62['C']['G'], -3)
   t.equal(BLOSUM62['G']['G'], +6)
 
+  let PAM250 = data.scoringMatrix({ v, w, name: 'PAM250' })
   t.equal(PAM250['A']['A'], +2)
   t.equal(PAM250['A']['U'], undefined)
   t.equal(PAM250['C']['G'], -3)
