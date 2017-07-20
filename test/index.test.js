@@ -11,5 +11,12 @@ test('run', function (t) {
   t.equal(res.score, 0)
   t.equal(res.vAligned, 'GCA-TGCU')
   t.equal(res.wAligned, 'G-ATTACA')
+
+  scoringMatrix = data.scoringMatrix({ v, w, name: 'PAM250' })
+  res = needleman.run(v, w, { scoringMatrix })
+  t.equal(res.score, 20)
+  t.equal(res.vAligned, 'GCA-TGCU')
+  t.equal(res.wAligned, 'G-ATTACA')
+
   t.end()
 })
