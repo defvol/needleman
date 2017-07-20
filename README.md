@@ -2,6 +2,14 @@
 
 Implementation of the Needleman–Wunsch algorithm, used in bioinformatics to align protein or nucleotide sequences.
 
+### installation
+
+```sh
+% npm install needleman
+```
+
+### usage
+
 Ex. 1: using a simple similarity scoring matrix by default
 
 ```js
