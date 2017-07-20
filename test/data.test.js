@@ -28,10 +28,10 @@ test('identityMatrix', function (t) {
 
 test('scoringMatrix', function (t) {
   let matrix = data.scoringMatrix({ v, w })
-  t.equal(matrix['A']['A'], 1, 'defaults to similarity scoring')
-  t.equal(matrix['A']['U'], 0)
-  t.equal(matrix['C']['G'], 0)
-  t.equal(matrix['G']['G'], 1)
+  t.equal(matrix['A']['A'], +1, 'defaults to similarity scoring')
+  t.equal(matrix['A']['U'], -1)
+  t.equal(matrix['C']['G'], -1)
+  t.equal(matrix['G']['G'], +1)
 
   let scores = { match: +10, mismatch: -10 }
   matrix = data.scoringMatrix({ v, w, scores })
