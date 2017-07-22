@@ -2,6 +2,8 @@ var fs = require('fs')
 var test = require('tape')
 var needleman = require('../lib/index')
 
+const loadFixture = (f) => fs.readFileSync(f).toString().split('\n')
+
 test('run', function (t) {
   let v = 'GCATGCU'
   let w = 'GATTACA'
@@ -20,27 +22,27 @@ test('run', function (t) {
   t.end()
 })
 
-test('affine gap test case', function (t) {
+test('affine gap', function (t) {
+  let scoringMatrix = needleman.scoringMatrix({ name: 'BLOSUM62' })
   let sigma = -11
   let epsilon = -1
 
   let v = 'PRTEINS'
   let w = 'PRTWPSEIN'
-  let scoringMatrix = needleman.scoringMatrix({ v, w, name: 'BLOSUM62' })
   let res = needleman.run(v, w, { scoringMatrix, sigma, epsilon })
   t.equal(res.score, 8)
   t.equal(res.vAligned, 'PRT---EINS')
   t.equal(res.wAligned, 'PRTWPSEIN-')
 
-  let lines = fs.readFileSync('./test/affine.txt').toString().split('\n')
-  v = lines[1].trim()
-  w = lines[2].trim()
-
+  let lines = loadFixture('./test/rosalind_ba5j.txt')
+  v = lines[0].trim()
+  w = lines[1].trim()
   res = needleman.run(v, w, { scoringMatrix, sigma, epsilon })
-  t.equal(res.score, parseInt(lines[4]))
-  t.equal(res.vAligned.length, res.wAligned.length)
-  t.equal(res.vAligned, lines[5].trim())
-  t.equal(res.wAligned, lines[6].trim())
+
+  lines = loadFixture('./test/rosalind_ba5j.sol')
+  t.equal(res.score, parseInt(lines[0]))
+  t.equal(res.vAligned, lines[1])
+  t.equal(res.wAligned, lines[2])
 
   t.end()
 })
