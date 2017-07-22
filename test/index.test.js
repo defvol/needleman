@@ -1,3 +1,4 @@
+var fs = require('fs')
 var test = require('tape')
 var needleman = require('../lib/index')
 
@@ -15,6 +16,31 @@ test('run', function (t) {
   t.equal(res.score, 20)
   t.equal(res.vAligned, 'GCA-TGCU')
   t.equal(res.wAligned, 'G-ATTACA')
+
+  t.end()
+})
+
+test('affine gap test case', function (t) {
+  let sigma = -11
+  let epsilon = -1
+
+  let v = 'PRTEINS'
+  let w = 'PRTWPSEIN'
+  let scoringMatrix = needleman.scoringMatrix({ v, w, name: 'BLOSUM62' })
+  let res = needleman.run(v, w, { scoringMatrix, sigma, epsilon })
+  t.equal(res.score, 8)
+  t.equal(res.vAligned, 'PRT---EINS')
+  t.equal(res.wAligned, 'PRTWPSEIN-')
+
+  let lines = fs.readFileSync('./test/affine.txt').toString().split('\n')
+  v = lines[1].trim()
+  w = lines[2].trim()
+
+  res = needleman.run(v, w, { scoringMatrix, sigma, epsilon })
+  t.equal(res.score, parseInt(lines[4]))
+  t.equal(res.vAligned.length, res.wAligned.length)
+  t.equal(res.vAligned, lines[5].trim())
+  t.equal(res.wAligned, lines[6].trim())
 
   t.end()
 })
