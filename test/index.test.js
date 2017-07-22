@@ -16,5 +16,17 @@ test('run', function (t) {
   t.equal(res.vAligned, 'GCA-TGCU')
   t.equal(res.wAligned, 'G-ATTACA')
 
+  v = 'PRTEINS'
+  w = 'PRTWPSEIN'
+  scoringMatrix = needleman.scoringMatrix({ v, w, name: 'BLOSUM62' })
+  res = needleman.run(v, w, {
+    scoringMatrix,
+    sigma: -11,
+    epsilon: -1
+  })
+  t.equal(res.score, 8)
+  t.equal(res.vAligned, 'PRT---EINS')
+  t.equal(res.wAligned, 'PRTWPSEIN-')
+
   t.end()
 })
