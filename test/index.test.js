@@ -25,10 +25,11 @@ test('run', function (t) {
   let indel = -2
   scoringMatrix = needleman.scoringMatrix({ v, w, scores })
 
-  res = needleman.run(v, w, { scoringMatrix, indel })
+  res = needleman.run(v, w, { scoringMatrix, indel, matrix: true })
   t.equal(res.score, 1)
   t.equal(res.vAligned, 'AGTACGCA')
   t.equal(res.wAligned, '--TATGC-')
+  t.equal(res.matrix.length, v.length + 1, 'returns result matrix')
 
   t.end()
 })
